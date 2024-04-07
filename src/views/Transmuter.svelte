@@ -169,6 +169,16 @@
             <img src="./images/icons/velodrome.svg" class="w-5 h-5" slot="leftSlot" alt="Logo of Velodrome" />
           </Button>
         {/if}
+        {#if $networkStore === '0xa4b1'}
+          <Button
+            on:clicked="{() => goTo('https://app.ramses.exchange/swap')}"
+            label="Ramses"
+            class="w-full lg:w-max"
+            py="py-2"
+          >
+            <img src="./images/icons/ramses.svg" class="w-5 h-5" slot="leftSlot" alt="Logo of Ramses" />
+          </Button>
+        {/if}
         <Button
           on:clicked="{() => goTo('http://zapper.fi')}"
           label="Zapper"
