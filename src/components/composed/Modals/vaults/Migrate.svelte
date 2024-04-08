@@ -52,41 +52,15 @@
   };
 
   const beginMigration = async () => {
+    // normalize migration amount to bignumber
     const sharesBase = utils.parseUnits(migrateAmount.toString(), vaultDecimals || 18);
-    const underlyingBase = sharesBase.mul(BigNumber.from(15000)).div(100000);
-    const minimumUnderlying = sharesBase.sub(underlyingBase);
-    const underlyingAmount = await convertTokenUnits(
-      vault.type,
-      vault.address,
-      minimumUnderlying,
-      0,
-      $signer,
-      $networkStore,
-    );
-    const underlyingToDebt = await convertTokenUnits(
-      vault.type,
-      vault.address,
-      underlyingAmount,
-      6,
-      $signer,
-      $networkStore,
-    );
-    const minimumSharesOut = await convertTokenUnits(
-      vault.type,
-      vault.address,
-      underlyingAmount,
-      3,
-      $signer,
-      $networkStore,
-    );
+
     await migrateVault(
       vault.type,
       vault.address,
+      vault.underlyingAddress,
       selectedVault.vault,
       sharesBase,
-      minimumSharesOut,
-      underlyingAmount,
-      underlyingToDebt,
       $networkStore,
       [$signer, $addressStore],
     ).then(() => {
