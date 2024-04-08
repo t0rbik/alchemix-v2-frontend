@@ -148,6 +148,8 @@
         slot="body"
         class="py-4 px-6 flex flex-col lg:flex-row gap-4 max-h-44 overflow-y-visible lg:overflow-y-hidden"
       >
+        <!-- below exchanges not available to swap al assets on arbitrum -->
+        {#if $networkStore !== '0xa4b1'}
         <Button on:clicked="{() => goTo('https://curve.fi')}" label="Curve" class="w-full lg:w-max" py="py-2">
           <img src="./images/icons/crv.png" class="w-5 h-5" slot="leftSlot" alt="Logo of Curve" />
         </Button>
@@ -159,6 +161,15 @@
         >
           <img src="./images/icons/paraswap.png" class="w-5 h-5" slot="leftSlot" alt="Logo of Paraswap" />
         </Button>
+          <Button
+            on:clicked="{() => goTo('http://zapper.fi')}"
+            label="Zapper"
+            class="w-full lg:w-max"
+            py="py-2"
+          >
+            <img src="./images/icons/zapper.png" class="w-5 h-5" slot="leftSlot" alt="Logo of Zapper" />
+          </Button>
+        {/if}
         {#if $networkStore === '0xa'}
           <Button
             on:clicked="{() => goTo('https://app.velodrome.finance/swap')}"
@@ -179,14 +190,6 @@
             <img src="./images/icons/ramses.svg" class="w-5 h-5" slot="leftSlot" alt="Logo of Ramses" />
           </Button>
         {/if}
-        <Button
-          on:clicked="{() => goTo('http://zapper.fi')}"
-          label="Zapper"
-          class="w-full lg:w-max"
-          py="py-2"
-        >
-          <img src="./images/icons/zapper.png" class="w-5 h-5" slot="leftSlot" alt="Logo of Zapper" />
-        </Button>
       </div>
     </ContainerWithHeader>
   </div>
