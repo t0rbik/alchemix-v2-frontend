@@ -9,6 +9,7 @@ import {
   setPendingApproval,
   setError,
 } from '@helpers/setToast';
+import { convertTokenUnits } from './asyncMethods';
 
 export async function getVaultMaxLoss(
   _yieldTokenAddress: string,
@@ -820,11 +821,9 @@ export async function liquidate(
 export async function migrateVault(
   vaultType: number,
   baseVaultToken: string,
+  underlyingToken: string,
   targetVaultToken: string,
   shareAmount: BigNumber,
-  minReturnShares: BigNumber,
-  minReturnUnderlying: BigNumber,
-  underlyingInDebt: BigNumber,
   network: string,
   [signerStore, addressStore]: [Signer, string],
 ) {
@@ -833,6 +832,23 @@ export async function migrateVault(
       'VaultMigrationTool_USD',
       'VaultMigrationTool_ETH',
     }
+
+    const underlyingAmount = await convertTokenUnits(
+      vaultType,
+      baseVaultToken,
+      shareAmount,
+      0,
+      signerStore,
+      network,
+    );
+    const underlyingInDebt = await convertTokenUnits(
+      vaultType,
+      underlyingToken,
+      underlyingAmount,
+      6,
+      signerStore,
+      network,
+    );
 
     const path = chainIds.filter((chain) => chain.id === network)[0].abiPath;
 
@@ -846,6 +862,21 @@ export async function migrateVault(
       signerStore,
       path,
     );
+
+    /* returns an array with params
+    [0] would migration succeed (bool)
+    [1] reason for failure / success msg
+    [2] amount a user would exceed the vault by, or how much debt needs to be covered
+    [3] minimum shares for the migrate function
+    [4] minimum underlying for the migrate function
+     */
+    const migrationParams = await migratorInstance.previewMigration(
+      addressStore,
+      baseVaultToken,
+      targetVaultToken,
+      shareAmount,
+    );
+
     const withdrawAllowance = await alchemistInstance.withdrawAllowance(
       addressStore,
       migratorAddress,
@@ -863,7 +894,7 @@ export async function migrateVault(
       await sendApe.wait();
     }
 
-    if (underlyingInDebt.gt(mintAllowance)) {
+    if (mintAllowance.eq(BigNumber.from('0')) || underlyingInDebt.gt(mintAllowance)) {
       setPendingApproval();
       const sendApe = (await alchemistInstance.approveMint(
         migratorAddress,
@@ -875,14 +906,14 @@ export async function migrateVault(
     setPendingWallet();
     let tx;
     await migratorInstance.estimateGas
-      .migrateVaults(baseVaultToken, targetVaultToken, shareAmount, minReturnShares, minReturnUnderlying)
+      .migrateVaults(baseVaultToken, targetVaultToken, shareAmount, migrationParams[3], migrationParams[4])
       .then(async () => {
         tx = (await migratorInstance.migrateVaults(
           baseVaultToken,
           targetVaultToken,
           shareAmount,
-          minReturnShares,
-          minReturnUnderlying,
+          migrationParams[3],
+          migrationParams[4],
         )) as ContractTransaction;
       })
       .catch(async () => {
@@ -890,8 +921,8 @@ export async function migrateVault(
           baseVaultToken,
           targetVaultToken,
           shareAmount,
-          minReturnShares,
-          minReturnUnderlying,
+          migrationParams[3],
+          migrationParams[4],
           {
             gasLimit: '2323232',
           },
