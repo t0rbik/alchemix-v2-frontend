@@ -43,6 +43,10 @@ export const additionalTokens = [
   },
   {
     network: '0xa4b1',
+    address: '0x17573150d67d820542EFb24210371545a4868B03',
+  },
+  {
+    network: '0xa4b1',
     address: '0x870d36B8AD33919Cc57FFE17Bb5D3b84F3aDee4f',
   },
   {
