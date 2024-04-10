@@ -41,7 +41,7 @@
     .filter((elm) => elm !== undefined)
     .reduce((acc, value) => acc.concat(value), [])
     .map((_transmuterData) => {
-      if (_transmuterData && $balancesStore.length) {
+      if (_transmuterData && $balancesStore.length > 0) {
         const synthTokenData = getTokenDataFromBalances(_transmuterData.synthAddress, [$balancesStore]);
         const underlyingTokenData = getTokenDataFromBalances(_transmuterData.underlyingTokenAddress, [
           $balancesStore,
@@ -126,7 +126,7 @@
     });
 
     Promise.all([...transmuterSelection]).then(() => {
-      transmutersLoading = balancesStore.length ? false : true; // if balances are not loaded, keep loading
+      transmutersLoading = balancesStore.length > 0 ? false : true; // if balances are not loaded, keep loading
     });
   };
 
