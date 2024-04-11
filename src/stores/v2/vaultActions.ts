@@ -111,7 +111,7 @@ export async function deposit(
       // @dev this is a temporary fix until we can properly refactor the vaults
       tokenAddress !== '0xa258C4606Ca8206D8aA700cE2143D7db854D168c' &&
       tokenAddress !== '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0' &&
-      tokenAddress !== '0x5979D7b546E38E414F7E9822514be443A4800529' &&
+      tokenAddress !== '0x5979D7b546E38E414F7E9822514be443A4800529' && // wstETH arbitrum
       gatewayIndexCheck >= 0 &&
       gatewayCheck[gatewayIndexCheck] !== undefined
     ) {
