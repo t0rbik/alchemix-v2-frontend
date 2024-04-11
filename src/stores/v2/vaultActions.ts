@@ -132,7 +132,7 @@ export async function deposit(
 
       setPendingWallet();
 
-      const tx = (await gatewayInstance.deposit(
+      const tx = (await alchemistInstance.deposit(
         staticToken,
         amountYield,
         userAddressStore,
