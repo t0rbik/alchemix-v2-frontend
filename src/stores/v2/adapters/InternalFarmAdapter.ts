@@ -10,8 +10,12 @@ export class InternalFarmAdapter extends IFarmAdapter {
     const _fRewardRate = parseFloat(utils.formatEther(rewardRate));
     const _fTotalPoolDeposits = parseFloat(utils.formatEther(tvl || tvl[0]));
 
-    const _fWethPrice = this.getPrice('0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2').usd;
-    const _fTokenprice = this.getPrice('0xdbdb4d16eda451d0503b854cf79d55697f90c8df').usd;
+    const _fWethPriceObj = this.getPrice('0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'); // may be undefined, if undefined, return. Otherwise UI gets stuck loading
+    if (!_fWethPriceObj) return;
+    const _fWethPrice = _fWethPriceObj.usd;
+    const _fTokenpriceObj = this.getPrice('0xdbdb4d16eda451d0503b854cf79d55697f90c8df'); // may be undefined, if undefined, return. Otherwise UI gets stuck loading
+    if (!_fTokenpriceObj) return;
+    const _fTokenprice = _fTokenpriceObj.usd;
     const _fRewardsPerWeek = _fRewardRate * 45000;
 
     const _fAprSaddle =
