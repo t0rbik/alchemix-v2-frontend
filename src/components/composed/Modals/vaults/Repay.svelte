@@ -156,7 +156,7 @@
     currentSelectedVaultType = value.detail.vault;
     currentSelectedUnderlyingTokenSymbol = useTokenListForVaultType(currentSelectedVaultType, [
       $vaultsStore,
-    ]).filter((entry) => entry.balance.gt(BigNumber.from(0)))[0].symbol;
+    ]).filter((entry) => entry.balance.gte(BigNumber.from(0)))[0].symbol;
   };
 </script>
 

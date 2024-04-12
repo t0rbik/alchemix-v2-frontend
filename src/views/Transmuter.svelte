@@ -41,7 +41,7 @@
     .filter((elm) => elm !== undefined)
     .reduce((acc, value) => acc.concat(value), [])
     .map((_transmuterData) => {
-      if (_transmuterData) {
+      if (_transmuterData && $balancesStore.length > 0) {
         const synthTokenData = getTokenDataFromBalances(_transmuterData.synthAddress, [$balancesStore]);
         const underlyingTokenData = getTokenDataFromBalances(_transmuterData.underlyingTokenAddress, [
           $balancesStore,
@@ -50,6 +50,10 @@
         // const tokenPrice = $global.tokenPrices.find(
         //   (token) => token.address.toLowerCase() === synthTokenData.address.toLowerCase(),
         // )?.price;
+        if (!underlyingTokenData && !synthTokenData) {
+          return;
+        }
+
         const tokenPrice =
           $tokenPriceStore[underlyingTokenData.address.toLowerCase()][
             $settings.baseCurrency.symbol.toLowerCase()
@@ -122,7 +126,7 @@
     });
 
     Promise.all([...transmuterSelection]).then(() => {
-      transmutersLoading = false;
+      transmutersLoading = balancesStore.length > 0 ? false : true; // if balances are not loaded, keep loading
     });
   };
 
