@@ -22,17 +22,25 @@ export async function fetchDataForToken(tokenAddress: string, signer: ethers.Sig
 
   const address = await signer.getAddress();
   try {
-    const name = (await tokenContract.name()) || '';
-    const symbol = (await tokenContract.symbol()) || '';
-    const decimals = (await tokenContract.decimals()) || 18;
-    const balance = (await tokenContract.balanceOf(address)) || 0;
-
+    const tokenData = await Promise.all([
+      tokenContract.name(),
+      tokenContract.symbol(),
+      tokenContract.decimals(),
+      tokenContract.balanceOf(address),
+    ]).then(([name, symbol, decimals, balance]) => {
+      return {
+        name,
+        symbol,
+        decimals,
+        balance,
+      };
+    });
     return {
       address: tokenAddress,
-      name,
-      symbol,
-      decimals,
-      balance,
+      name: tokenData.name || '',
+      symbol: tokenData.symbol || '',
+      decimals: tokenData.decimals || 18,
+      balance: tokenData.balance || 0,
     };
   } catch (error) {
     console.error('[fetchDataForToken]:', tokenAddress, signer, error);
@@ -59,13 +67,17 @@ export async function fetchDataForETH(signer: ethers.Signer, network = '0x1'): P
   };
 }
 
-export const generateTokenPromises = (_tokens: string[], signer: ethers.Signer, network?: string) => {
+export const generateTokenPromises = async (_tokens: string[], signer: ethers.Signer, network?: string) => {
   const networkName = chainIds.filter((chain) => chain.id === network)[0].abiPath;
-  getTokenPrice(
+  await getTokenPrice(
     networkName || 'ethereum',
     _tokens.map((token) => token),
   );
-  return _tokens.map((token) => fetchDataForToken(token, signer));
+  let tokenPromises = [];
+  _tokens.forEach((token) => {
+    tokenPromises.push(fetchDataForToken(token, signer));
+  });
+  return tokenPromises;
 };
 
 export async function fetchDataForVault(

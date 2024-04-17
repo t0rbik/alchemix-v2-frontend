@@ -27,32 +27,37 @@
   };
   let initStarted = false;
 
-  async function initialize(netId) {
+  async function initialize(netId: string) {
     if (
       !initStarted &&
       $addressStore !== undefined &&
       netId !== lastConnection.chainId &&
       $signer !== undefined
     ) {
-      vaultsLoading.set(true);
-
-      await resetStores();
       initStarted = true;
+      vaultsLoading.set(true);
+      await resetStores();
       const execute = chainIds.filter((entry) => entry.id === netId)[0];
 
-      const aaveReservesEth = await getReservesEth();
-      if (aaveReservesEth?.data?.data?.reserves) {
-        $reservesStore = [...$reservesStore, aaveReservesEth.data.data.reserves];
+      if (netId === '0x1') {
+        const aaveReservesEth = await getReservesEth();
+        if (aaveReservesEth?.data?.data?.reserves) {
+          $reservesStore = [...$reservesStore, aaveReservesEth.data.data.reserves];
+        }
       }
 
-      const aaveReservesOpt = await getReservesOpt();
-      if (aaveReservesOpt?.data?.data?.reserves) {
-        $reservesStore = [...$reservesStore, aaveReservesOpt.data.data.reserves];
+      if (netId === '0xa') {
+        const aaveReservesOpt = await getReservesOpt();
+        if (aaveReservesOpt?.data?.data?.reserves) {
+          $reservesStore = [...$reservesStore, aaveReservesOpt.data.data.reserves];
+        }
       }
 
-      const aaveReservesArb = await getReservesArb();
-      if (aaveReservesArb?.data?.data?.reserves) {
-        $reservesStore = [...$reservesStore, aaveReservesArb.data.data.reserves];
+      if (netId === '0xa4b1') {
+        const aaveReservesArb = await getReservesArb();
+        if (aaveReservesArb?.data?.data?.reserves) {
+          $reservesStore = [...$reservesStore, aaveReservesArb.data.data.reserves];
+        }
       }
 
       if (netId === '0x1') {
@@ -60,8 +65,6 @@
         if (vesperVaultData !== undefined) {
           $vesperVaults = [...vesperVaultData];
         }
-      } else {
-        const vesperVaultData = [];
       }
 
       let vaultTokens = [];
@@ -114,14 +117,18 @@
 
       await queryOpenProposals();
 
-      console.log(`[StateManager]: Connected with address ${$addressStore}`);
+      console.info(`[StateManager]: Connected with address ${$addressStore}`);
     }
   }
 
   async function onAddressStoreChange() {
-    await initialize($networkStore);
+    if (!initStarted) {
+      await initialize($networkStore);
+    }
 
-    await fetchAllBalances([$signer, $fullTokenList], $networkStore);
+    if ($signer !== undefined && lastConnection.chainId !== '') {
+      await fetchAllBalances([$signer, $fullTokenList], $networkStore);
+    }
   }
 
   $: $networkStore, initialize($networkStore);

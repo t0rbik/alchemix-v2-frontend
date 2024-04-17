@@ -58,7 +58,7 @@ export async function fetchAllBalances([signer, fullTokenList]: [ethers.Signer, 
   }
 
   const fetchETHPromise = await fetchDataForETH(signer, network);
-  const fetchTokensPromises = generateTokenPromises(fullTokenList, signer, network);
+  const fetchTokensPromises = await generateTokenPromises(fullTokenList, signer, network);
   //
   return Promise.all([fetchETHPromise, ...fetchTokensPromises]).then((balances) => {
     updateAllBalances([...balances]);
@@ -129,6 +129,7 @@ export async function fetchVaultDebtTokenAddress(
   const debtTokenAddress = await instance.debtToken();
 
   updateVaultDebtTokenAddress(vaultId, debtTokenAddress);
+  return Promise.resolve();
 }
 
 export async function fetchAllVaultsBodies(
