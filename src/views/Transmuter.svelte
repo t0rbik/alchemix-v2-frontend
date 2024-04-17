@@ -154,17 +154,22 @@
       >
         <!-- below exchanges not available to swap al assets on arbitrum -->
         {#if $networkStore !== '0xa4b1'}
-        <Button on:clicked="{() => goTo('https://curve.fi')}" label="Curve" class="w-full lg:w-max" py="py-2">
-          <img src="./images/icons/crv.png" class="w-5 h-5" slot="leftSlot" alt="Logo of Curve" />
-        </Button>
-        <Button
-          on:clicked="{() => goTo('http://app.paraswap.io')}"
-          label="Paraswap"
-          class="w-full lg:w-max"
-          py="py-2"
-        >
-          <img src="./images/icons/paraswap.png" class="w-5 h-5" slot="leftSlot" alt="Logo of Paraswap" />
-        </Button>
+          <Button
+            on:clicked="{() => goTo('https://curve.fi')}"
+            label="Curve"
+            class="w-full lg:w-max"
+            py="py-2"
+          >
+            <img src="./images/icons/crv.png" class="w-5 h-5" slot="leftSlot" alt="Logo of Curve" />
+          </Button>
+          <Button
+            on:clicked="{() => goTo('http://app.paraswap.io')}"
+            label="Paraswap"
+            class="w-full lg:w-max"
+            py="py-2"
+          >
+            <img src="./images/icons/paraswap.png" class="w-5 h-5" slot="leftSlot" alt="Logo of Paraswap" />
+          </Button>
           <Button
             on:clicked="{() => goTo('http://zapper.fi')}"
             label="Zapper"

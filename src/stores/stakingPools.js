@@ -22,32 +22,12 @@ export const additionalTokens = [
     address: '0x93Dede06AE3B5590aF1d4c111BC54C3f717E4b35',
   },
   {
-    network: '0xfa',
-    address: '0xB67FA6deFCe4042070Eb1ae1511Dcd6dcc6a532E',
-  },
-  {
-    network: '0xfa',
-    address: '0x70F9fd19f857411b089977E7916c05A0fc477Ac9',
-  },
-  {
     network: '0x1',
     address: '0x6b3595068778dd592e39a122f4f5a5cf09c90fe2',
   },
   {
     network: '0x1',
     address: '0xC3f279090a47e80990Fe3a9c30d24Cb117EF91a8',
-  },
-  {
-    network: '0xa4b1',
-    address: '0xCB8FA9a76b8e203D8C3797bF438d8FB81Ea3326A',
-  },
-  {
-    network: '0xa4b1',
-    address: '0x17573150d67d820542EFb24210371545a4868B03',
-  },
-  {
-    network: '0xa4b1',
-    address: '0x870d36B8AD33919Cc57FFE17Bb5D3b84F3aDee4f',
   },
   {
     network: '0x1',
@@ -64,6 +44,26 @@ export const additionalTokens = [
   {
     network: '0x1',
     address: '0x030bA81f1c18d280636F32af80b9AAd02Cf0854e',
+  },
+  {
+    network: '0x1',
+    address: '0x853d955acef822db058eb8505911ed77f175b99e',
+  },
+  {
+    network: '0x1',
+    address: '0xd4937682df3C8aEF4FE912A96A74121C0829E664',
+  },
+  {
+    network: '0x1',
+    address: '0xC3f279090a47e80990Fe3a9c30d24Cb117EF91a8',
+  },
+  {
+    network: '0xfa',
+    address: '0xB67FA6deFCe4042070Eb1ae1511Dcd6dcc6a532E',
+  },
+  {
+    network: '0xfa',
+    address: '0x70F9fd19f857411b089977E7916c05A0fc477Ac9',
   },
   {
     network: '0xa',
@@ -90,18 +90,6 @@ export const additionalTokens = [
     address: '0xe50fA9b3c56FfB159cB0FCA61F5c9D750e8128c8',
   },
   {
-    network: '0x1',
-    address: '0x853d955acef822db058eb8505911ed77f175b99e',
-  },
-  {
-    network: '0x1',
-    address: '0xd4937682df3C8aEF4FE912A96A74121C0829E664',
-  },
-  {
-    network: '0x1',
-    address: '0xC3f279090a47e80990Fe3a9c30d24Cb117EF91a8',
-  },
-  {
     network: '0xa',
     address: '0x65343F414FFD6c97b0f6add33d16F6845Ac22BAc',
   },
@@ -112,6 +100,18 @@ export const additionalTokens = [
   {
     network: '0xa',
     address: '0x5B977577Eb8a480f63e11FC615D6753adB8652Ae',
+  },
+  {
+    network: '0xa4b1',
+    address: '0xCB8FA9a76b8e203D8C3797bF438d8FB81Ea3326A',
+  },
+  {
+    network: '0xa4b1',
+    address: '0x17573150d67d820542EFb24210371545a4868B03',
+  },
+  {
+    network: '0xa4b1',
+    address: '0x870d36B8AD33919Cc57FFE17Bb5D3b84F3aDee4f',
   },
   {
     network: '0xa4b1',

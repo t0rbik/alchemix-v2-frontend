@@ -42,11 +42,6 @@
   const basePath = process.env.NODE_ENV === 'development' || 'production' ? '' : window.location.pathname;
 
   onMount(async () => {
-    if (preselect.length > 0) {
-      await connect(preselect);
-      // if (location.pathname === '/') routerGuard('accounts');
-    }
-    walletChecked = true;
     console.log(
       `%c
  ▄▄▄       ██▓     ▄████▄   ██░ ██ ▓█████  ███▄ ▄███▓ ██▓▒██   ██▒
@@ -89,6 +84,11 @@ Use at your own risk.
   `,
       'color: #F5C09A',
     );
+    if (preselect.length > 0) {
+      await connect(preselect);
+      // if (location.pathname === '/') routerGuard('accounts');
+    }
+    walletChecked = true;
   });
 </script>
 
