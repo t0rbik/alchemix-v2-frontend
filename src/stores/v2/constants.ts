@@ -143,6 +143,7 @@ export const HiddenVaults = [
   '0x1d2bE809EE3a0eeACb02d3d234b3eD479e1c4962',
   '0xDC8Eb117A9987cF2ED45E9082Adc13C03922Fa0a',
 ];
+
 export const VaultTypesInfos = {
   [VaultTypes.alUSD]: {
     name: 'alUSD',

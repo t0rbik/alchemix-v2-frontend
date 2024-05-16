@@ -52,8 +52,8 @@
     hover:{disabled
     ? `bg-${backgroundColor}`
     : noHoverEffect
-    ? `hover:bg-${backgroundColor}`
-    : `bg-${hoverColor}`}
+      ? `hover:bg-${backgroundColor}`
+      : `bg-${hoverColor}`}
     hover:{disabled ? 'cursor-not-allowed' : noHoverEffect ? 'cursor-default' : 'cursor-pointer'}
     hover:text-opacity-100
     disabled:opacity-50
@@ -66,10 +66,10 @@
     class="flex flex-row {$$slots.leftSlot && $$slots.rightSlot
       ? 'justify-between items-center'
       : $$slots.leftSlot && !$$slots.rightSlot
-      ? 'justify-start items-center'
-      : !$$slots.leftSlot && $$slots.rightSlot
-      ? 'justify-center items-center space-x-4'
-      : 'justify-center'}"
+        ? 'justify-start items-center'
+        : !$$slots.leftSlot && $$slots.rightSlot
+          ? 'justify-center items-center space-x-4'
+          : 'justify-center'}"
   >
     <slot name="leftSlot" />
     {#if label}
