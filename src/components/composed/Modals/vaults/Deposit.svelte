@@ -56,7 +56,7 @@
     const yieldTokens = underlyingDepositBN
       .mul(BigNumber.from(10).pow(underlyingTokenData.decimals))
       .div(adapterPrice);
-    const subTokens = yieldTokens.mul(BigNumber.from(maximumLoss)).div(100000);
+    const subTokens = yieldTokens.mul(BigNumber.from(maximumLoss)).div(10000);
     const underlyingMinimumIn = yieldTokens.sub(subTokens);
 
     if (_yieldDeposit.gt(0) && _underlyingDeposit.gt(0)) {
