@@ -399,6 +399,8 @@ export async function withdraw(
       // @dev this is a temporary fix until we can properly refactor the vaults
       yieldTokenAddress !== '0xa258C4606Ca8206D8aA700cE2143D7db854D168c' &&
       yieldTokenAddress !== '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0' &&
+      yieldTokenAddress !== '0x5979D7b546E38E414F7E9822514be443A4800529' && // wstETH arbitrum
+      yieldTokenAddress !== '0x1F32b1c2345538c0c6f582fCB022739c4A194Ebb' && // wstETH optimism
       gatewayIndexCheck >= 0 &&
       gatewayCheck.filter((entry) => {
         return !!entry;
