@@ -112,6 +112,7 @@ export async function deposit(
       tokenAddress !== '0xa258C4606Ca8206D8aA700cE2143D7db854D168c' &&
       tokenAddress !== '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0' &&
       tokenAddress !== '0x5979D7b546E38E414F7E9822514be443A4800529' && // wstETH arbitrum
+      tokenAddress !== '0x1F32b1c2345538c0c6f582fCB022739c4A194Ebb' && // wstETH optimism
       gatewayIndexCheck >= 0 &&
       gatewayCheck[gatewayIndexCheck] !== undefined
     ) {
@@ -398,6 +399,8 @@ export async function withdraw(
       // @dev this is a temporary fix until we can properly refactor the vaults
       yieldTokenAddress !== '0xa258C4606Ca8206D8aA700cE2143D7db854D168c' &&
       yieldTokenAddress !== '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0' &&
+      yieldTokenAddress !== '0x5979D7b546E38E414F7E9822514be443A4800529' && // wstETH arbitrum
+      yieldTokenAddress !== '0x1F32b1c2345538c0c6f582fCB022739c4A194Ebb' && // wstETH optimism
       gatewayIndexCheck >= 0 &&
       gatewayCheck.filter((entry) => {
         return !!entry;
@@ -533,13 +536,12 @@ export async function withdrawUnderlying(
         signerStore,
         path,
       );
-      let yieldToken = yieldTokenAddress;
       const selector = VaultTypesInfos[typeOfVault].metaConfig[yieldTokenAddress]?.gateway;
       const pair =
         VaultConstants[typeOfVault].gatewayContractSelector[selector]?.filter(
           (item) => item.aToken === yieldTokenAddress,
         )[0] || undefined;
-      if (!!pair) yieldToken = pair.staticToken;
+      const yieldToken = pair?.staticToken || yieldTokenAddress;
 
       // check withdrawAllowance on alchemist
       // if insufficient, call approveWithdraw for amount on alchemist with spender gateway

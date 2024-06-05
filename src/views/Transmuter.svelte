@@ -181,7 +181,7 @@
         {/if}
         {#if $networkStore === '0xa'}
           <Button
-            on:clicked="{() => goTo('https://app.velodrome.finance/swap')}"
+            on:clicked="{() => goTo('https://velodrome.finance/')}"
             label="Velodrome"
             class="w-full lg:w-max"
             py="py-2"

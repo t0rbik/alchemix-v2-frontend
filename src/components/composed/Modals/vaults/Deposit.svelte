@@ -56,7 +56,7 @@
     const yieldTokens = underlyingDepositBN
       .mul(BigNumber.from(10).pow(underlyingTokenData.decimals))
       .div(adapterPrice);
-    const subTokens = yieldTokens.mul(BigNumber.from(maximumLoss)).div(100000);
+    const subTokens = yieldTokens.mul(BigNumber.from(maximumLoss)).div(10000);
     const underlyingMinimumIn = yieldTokens.sub(subTokens);
 
     if (_yieldDeposit.gt(0) && _underlyingDeposit.gt(0)) {
@@ -85,8 +85,8 @@
           console.error(log);
         })
         .finally(() => {
-          yieldDeposit = '';
-          underlyingDeposit = '';
+          yieldDeposit = 0;
+          underlyingDeposit = 0;
         });
     } else if (_yieldDeposit.gt(0) && _underlyingDeposit.lte(0)) {
       await deposit(
@@ -113,8 +113,8 @@
           console.error(log);
         })
         .finally(() => {
-          yieldDeposit = '';
-          underlyingDeposit = '';
+          yieldDeposit = 0;
+          underlyingDeposit = 0;
         });
     } else {
       await depositUnderlying(
@@ -146,8 +146,8 @@
           console.trace(`[onButtonDeposit/depositUnderlying]`, log);
         })
         .finally(() => {
-          yieldDeposit = '';
-          underlyingDeposit = '';
+          yieldDeposit = 0;
+          underlyingDeposit = 0;
         });
     }
   };
@@ -219,8 +219,8 @@
 
   function switchDepositType() {
     depositEth = !depositEth;
-    underlyingDeposit = '';
-    yieldDeposit = '';
+    underlyingDeposit = 0;
+    yieldDeposit = 0;
   }
 
   $: startDebtLimit = initializeStartDebtLimit(borrowLimit, vault, underlyingTokenData);
