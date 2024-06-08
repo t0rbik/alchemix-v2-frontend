@@ -465,7 +465,7 @@ export const VaultTypesInfos = {
         acceptWeth: false,
         gateway: 'ATokenGateway_alUSD',
         strategy: '',
-        bonusType: '',
+        bonusType: 'meltedRewards',
         hidden: false,
       },
       '0x082B50BeC5E85D82b52264dA7Ad24187a235DBC4': {
@@ -704,7 +704,7 @@ export const VaultTypesInfos = {
         multicall: false,
         gateway: 'WETHGateway',
         strategy: '',
-        bonusType: '',
+        bonusType: 'meltedRewards',
         hidden: false,
       },
     },

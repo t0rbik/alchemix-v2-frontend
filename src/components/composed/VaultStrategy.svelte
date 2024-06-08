@@ -7,7 +7,7 @@
   import settings from '@stores/settings';
   import { vaultsStore, networkStore } from '@stores/v2/alcxStore';
   import { signer } from '@stores/v2/derived';
-  import { vaultMessages, VaultConstants } from '@stores/v2/constants';
+  import { vaultMessages, VaultConstants, chainIds } from '@stores/v2/constants';
   import { getTokenPriceInEth } from '@middleware/llama';
   import { reservesStore } from '@stores/aaveReserves';
   import { vesperVaults } from '@stores/vesperVaults';
@@ -88,13 +88,24 @@
     }
   };
   const meltedRewards = async () => {
-    meltedRewardParams = await getMeltedRewards(strategy.col5.vault.address, 'optimism', $signer);
-    bonusYieldToken = 'OP';
+    const rewardConfig = {
+      optimism: {
+        rewardTokenAddress: '0x4200000000000000000000000000000000000042',
+        rewardTokenSymbol: 'OP',
+      },
+      arbitrum: {
+        rewardTokenAddress: '0x912CE59144191C1204E64559FE8253a0e49E6548',
+        rewardTokenSymbol: 'ARB',
+      },
+    };
+    const abiPath = chainIds.filter((chain) => chain.id === $networkStore)[0].abiPath;
+    meltedRewardParams = await getMeltedRewards(strategy.col5.vault.address, abiPath, $signer);
+    bonusYieldToken = rewardConfig[abiPath].rewardTokenSymbol;
     bonusTimeLimit = true;
     bonusTimeUnit = 'days';
     bonusTimeAmount = meltedRewardParams[3].mul(12).div(60).div(60).div(24).toString();
-    bonusYieldValue = await getTokenPriceInEth('optimism', '0x4200000000000000000000000000000000000042');
-    tokenPriceInEth = await getTokenPriceInEth('optimism', strategy?.col3.token.address);
+    bonusYieldValue = await getTokenPriceInEth(abiPath, rewardConfig[abiPath].rewardTokenAddress);
+    tokenPriceInEth = await getTokenPriceInEth(abiPath, strategy?.col3.token.address);
     if (meltedRewardParams[2].gt(BigNumber.from(0))) {
       bonusYieldRate =
         ((parseFloat(utils.formatEther(meltedRewardParams[2])) * bonusYieldValue * 31556952) /
