@@ -103,15 +103,15 @@
     bonusYieldToken = rewardConfig[abiPath].rewardTokenSymbol;
     bonusTimeLimit = true;
     bonusTimeUnit = 'days';
-    bonusTimeAmount = meltedRewardParams[3].mul(12).div(60).div(60).div(24).toString();
+    bonusTimeAmount = meltedRewardParams[3].div(60).div(60).div(24).toString();
     bonusYieldValue = await getTokenPriceInEth(abiPath, rewardConfig[abiPath].rewardTokenAddress);
     tokenPriceInEth = await getTokenPriceInEth(abiPath, strategy?.col3.token.address);
     if (meltedRewardParams[2].gt(BigNumber.from(0))) {
       bonusYieldRate =
-        ((parseFloat(utils.formatEther(meltedRewardParams[2])) * bonusYieldValue * 31556952) /
-          parseFloat(meltedRewardParams[3].toString()) /
-          parseFloat(utils.formatUnits(strategy.col3.token.balance, strategy.col3.token.decimals))) *
-        tokenPriceInEth;
+        (parseFloat(utils.formatEther(meltedRewardParams[2])) * bonusYieldValue * 31556952) /
+        parseFloat(meltedRewardParams[3].toString()) /
+        (parseFloat(utils.formatUnits(strategy.col3.token.balance, strategy.col3.token.decimals)) *
+          tokenPriceInEth);
       bonusYield = true;
       bonusInPercentage = true;
     } else {
