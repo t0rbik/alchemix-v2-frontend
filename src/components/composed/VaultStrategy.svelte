@@ -102,8 +102,8 @@
     meltedRewardParams = await getMeltedRewards(strategy.col5.vault.address, abiPath, $signer);
     bonusYieldToken = rewardConfig[abiPath].rewardTokenSymbol;
     bonusTimeLimit = true;
-    bonusTimeUnit = 'days';
     bonusTimeAmount = meltedRewardParams[3].div(60).div(60).div(24).toString();
+    bonusTimeUnit = parseFloat(bonusTimeAmount) > 1 ? 'days' : 'day';
     bonusYieldValue = await getTokenPriceInEth(abiPath, rewardConfig[abiPath].rewardTokenAddress);
     tokenPriceInEth = await getTokenPriceInEth(abiPath, strategy?.col3.token.address);
     if (meltedRewardParams[2].gt(BigNumber.from(0))) {
