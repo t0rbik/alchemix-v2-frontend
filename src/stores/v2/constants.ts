@@ -305,7 +305,7 @@ export const VaultTypesInfos = {
         gateway: 'ATokenGateway_alUSD',
         strategy:
           'https://app.aave.com/reserve-overview/?underlyingAsset=0x7f5c764cbc14f9669b88837ca1490cca17c31607&marketName=proto_optimism_v3',
-        bonusType: '',
+        bonusType: 'meltedRewards',
         hidden: false,
       },
       '0x2680b58945A31602E4B6122C965c2849Eb76Dd3B': {
