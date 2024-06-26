@@ -3,9 +3,10 @@ import { reservesStore } from '@stores/aaveReserves';
 import { contractWrapper } from '@helpers/contractWrapper';
 import { Signer, BigNumber } from 'ethers';
 
-const subgraphUrlEth = 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2';
-const subgraphUrlOpt = 'https://api.thegraph.com/subgraphs/name/aave/protocol-v3-optimism';
-const subgraphUrlArb = 'https://api.thegraph.com/subgraphs/name/aave/protocol-v3-arbitrum';
+const API_KEY = 'b6da9f745ab40e51bfa76f0cb1bc4c82';
+const subgraphUrlEth = `https://gateway-arbitrum.network.thegraph.com/api/${API_KEY}/subgraphs/id/8wR23o1zkS4gpLqLNU4kG3JHYVucqGyopL5utGxP2q1N`;
+const subgraphUrlOpt = `https://gateway-arbitrum.network.thegraph.com/api/${API_KEY}/subgraphs/id/DSfLz8oQBUeU5atALgUFQKMTSYV9mZAVYp4noLSXAfvb`;
+const subgraphUrlArb = `https://gateway-arbitrum.network.thegraph.com/api/${API_KEY}/subgraphs/id/DLuE98kEb5pQNXAcKFQGQgfSQ57Xdou4jnVbAEqMfy3B`;
 
 let _reserves;
 reservesStore.subscribe((val) => {
@@ -27,15 +28,15 @@ export async function getReservesEth() {
         reserves {
         name
         underlyingAsset
-        
-        liquidityRate 
+
+        liquidityRate
         stableBorrowRate
         variableBorrowRate
-        
+
         aEmissionPerSecond
         vEmissionPerSecond
         sEmissionPerSecond
-        
+
         totalATokenSupply
         totalCurrentVariableDebt
       }
