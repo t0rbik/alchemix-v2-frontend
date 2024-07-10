@@ -55,12 +55,12 @@ export async function getVaultCapacity(
       limit: yieldTokenParameters.maximumExpectedValue,
       percent: yieldTokenParameters.maximumExpectedValue.gt(BigNumber.from(0))
         ? BigNumber.from(10000)
-          .mul(
-            yieldTokenParameters.maximumExpectedValue
-              .sub(yieldTokenParameters.expectedValue)
-              .mul(BigNumber.from(100)),
-          )
-          .div(yieldTokenParameters.maximumExpectedValue.mul(BigNumber.from(100)))
+            .mul(
+              yieldTokenParameters.maximumExpectedValue
+                .sub(yieldTokenParameters.expectedValue)
+                .mul(BigNumber.from(100)),
+            )
+            .div(yieldTokenParameters.maximumExpectedValue.mul(BigNumber.from(100)))
         : BigNumber.from(10000),
     };
   } catch (error) {
@@ -485,7 +485,7 @@ export async function withdrawUnderlying(
   gateway: string,
   useGateway = false,
 ) {
-  let alchemistContract: Contract | undefined
+  let alchemistContract: Contract | undefined;
 
   try {
     const path = chainIds.filter((chain) => chain.id === network)[0].abiPath;
@@ -496,18 +496,18 @@ export async function withdrawUnderlying(
       path,
     );
 
-    alchemistContract = alchemistInstance
+    alchemistContract = alchemistInstance;
 
     if (!useGateway) {
       const selector = VaultTypesInfos[typeOfVault].metaConfig[yieldTokenAddress]?.gateway;
-      const pair_0 =
-        VaultConstants[typeOfVault].gatewayContractSelector[selector]?.filter(
-          (item) => {
-            return item.aToken === yieldTokenAddress
-          },
-        )
+      const pair_0 = VaultConstants[typeOfVault].gatewayContractSelector[selector]?.filter((item) => {
+        return item.aToken === yieldTokenAddress;
+      });
 
-      const pair = pair_0.find((item) => item.hasOwnProperty('chain') && item.chain === network) || [0] || undefined
+      const pair =
+        pair_0.find((item) => item.hasOwnProperty('chain') && item.chain === network) ||
+        pair_0[0] ||
+        undefined;
 
       const gatewayCheck = Object.entries(VaultConstants[typeOfVault].gatewayContractSelector).map((item) => {
         return item.filter((entry) => {
@@ -552,7 +552,7 @@ export async function withdrawUnderlying(
           (item) => item.aToken === yieldTokenAddress,
         )[0] || undefined;
       const yieldToken = pair?.staticToken || yieldTokenAddress;
-      console.log(yieldToken)
+      console.log(yieldToken);
       // check withdrawAllowance on alchemist
       // if insufficient, call approveWithdraw for amount on alchemist with spender gateway
 
@@ -568,8 +568,6 @@ export async function withdrawUnderlying(
         await alchemistInstance.approveWithdraw(gatewayAddress, yieldToken, amountUnderlying);
       }
       setPendingWallet();
-
-
 
       const tx = (await gatewayInstance.withdrawUnderlying(
         alchemistAddress,
@@ -596,8 +594,7 @@ export async function withdrawUnderlying(
     }
   } catch (error) {
     if (alchemistContract) {
-
-      handleError(alchemistContract, error)
+      handleError(alchemistContract, error);
     }
 
     setError(error.data ? await error.data.originalError.message : error.message, error);
