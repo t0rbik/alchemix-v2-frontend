@@ -1,6 +1,6 @@
 import type { VaultTypes } from './types';
 import { erc20Contract, contractWrapper } from '@helpers/contractWrapper';
-import { Signer, BigNumber, ethers, ContractTransaction } from 'ethers';
+import { Signer, BigNumber, ethers, ContractTransaction, Contract } from 'ethers';
 import { VaultConstants, VaultTypesInfos, chainIds } from './constants';
 import {
   setPendingWallet,
@@ -10,6 +10,7 @@ import {
   setError,
 } from '@helpers/setToast';
 import { convertTokenUnits } from './asyncMethods';
+import { handleError } from '@/helpers/errorsHelpers';
 
 export async function getVaultMaxLoss(
   _yieldTokenAddress: string,
@@ -484,6 +485,8 @@ export async function withdrawUnderlying(
   gateway: string,
   useGateway = false,
 ) {
+  let alchemistContract: Contract | undefined;
+
   try {
     const path = chainIds.filter((chain) => chain.id === network)[0].abiPath;
 
@@ -493,12 +496,19 @@ export async function withdrawUnderlying(
       path,
     );
 
+    alchemistContract = alchemistInstance;
+
     if (!useGateway) {
       const selector = VaultTypesInfos[typeOfVault].metaConfig[yieldTokenAddress]?.gateway;
+      const pair_0 = VaultConstants[typeOfVault].gatewayContractSelector[selector]?.filter((item) => {
+        return item.aToken === yieldTokenAddress;
+      });
+
       const pair =
-        VaultConstants[typeOfVault].gatewayContractSelector[selector]?.filter(
-          (item) => item.aToken === yieldTokenAddress,
-        )[0] || undefined;
+        pair_0.find((item) => item.hasOwnProperty('chain') && item.chain === network) ||
+        pair_0[0] ||
+        undefined;
+
       const gatewayCheck = Object.entries(VaultConstants[typeOfVault].gatewayContractSelector).map((item) => {
         return item.filter((entry) => {
           return entry === selector;
@@ -542,7 +552,7 @@ export async function withdrawUnderlying(
           (item) => item.aToken === yieldTokenAddress,
         )[0] || undefined;
       const yieldToken = pair?.staticToken || yieldTokenAddress;
-
+      console.log(yieldToken);
       // check withdrawAllowance on alchemist
       // if insufficient, call approveWithdraw for amount on alchemist with spender gateway
 
@@ -583,6 +593,10 @@ export async function withdrawUnderlying(
       });
     }
   } catch (error) {
+    if (alchemistContract) {
+      handleError(alchemistContract, error);
+    }
+
     setError(error.data ? await error.data.originalError.message : error.message, error);
     console.trace(`[vaultActions/withdraw]: ${error}`);
     throw Error(error.data);

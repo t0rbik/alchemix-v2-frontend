@@ -42,6 +42,7 @@ export const VaultConstants = {
         {
           aToken: '0x625E7708f30cA75bfd92586e17077590C60eb4cD',
           staticToken: '0x248a431116c6f6FCD5Fe1097d16d0597E24100f5',
+          chain: "0xa4b1"
         },
         // arbitrum usdt
         {
